@@ -1,9 +1,9 @@
-public class Quotaion {
+public class Quotation {
     int id;
     String content;
     String ahtorName;
 
-    public Quotaion(int id, String content, String authorName){
+    public Quotation(int id, String content, String authorName){
         this.id = id;
         this.content = content;
         this.ahtorName = authorName;
