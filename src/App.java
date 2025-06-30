@@ -31,6 +31,9 @@ class App {
             else if (cmd.equals("목록")) {
                 actionList();
             }
+            else if (cmd.startsWith("삭제?")) { //cmd에서 삭제? 시작하는가? true면 아래 함수 호출
+                actionRemove(cmd);
+            }
         }
     }
     void actionWrite(){
@@ -58,5 +61,10 @@ class App {
             Quotation quotation = quotations.get(i);
             System.out.printf("%d / %s / %s\n", quotation.id, quotation.ahtorName, quotation.content);
         }
+    }
+    void actionRemove(String cmd) { //매개변수 cmd에 삭제?id=1 문자열이 들어있다면
+        String idStr = cmd.replace("삭제?id=",""); // 삭제?id= 부분만 "" 빈문자열로 대체, 결국 "1" 만 남게 된다
+        int id = Integer.parseInt(idStr);// idStr변수에는 "1" 문자열 1이 저장 되있고, Integer.parseInt(idStr) 통해서 "1"이 숫자 1로 바뀌고 id 변수에 저장된다.
+        System.out.printf("%d번 명언을 삭제합니다.\n", id);
     }
 }
