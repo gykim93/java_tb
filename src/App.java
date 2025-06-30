@@ -12,6 +12,7 @@ class App {
         lastQuotationId = 0;
         quotations = new ArrayList<>();
     }
+
     void run() {
         System.out.println("== 명언 앱 ==");
 
@@ -23,20 +24,18 @@ class App {
 
             if (cmd.equals("종료")) {
                 break;
-            }
-            else if (cmd.equals("등록")) {
+            } else if (cmd.equals("등록")) {
                 actionWrite();
                 System.out.printf("%d번 명언이 등록 되었습니다.\n", lastQuotationId);
-            }
-            else if (cmd.equals("목록")) {
+            } else if (cmd.equals("목록")) {
                 actionList();
-            }
-            else if (cmd.startsWith("삭제?")) { //cmd에서 삭제? 시작하는가? true면 아래 함수 호출
+            } else if (cmd.startsWith("삭제?")) { //cmd에서 삭제? 시작하는가? true면 아래 함수 호출
                 actionRemove(cmd);
             }
         }
     }
-    void actionWrite(){
+
+    void actionWrite() {
         System.out.print("명언 : ");
         String content = scanner.nextLine();
 
@@ -50,7 +49,8 @@ class App {
         Quotation quotation = new Quotation(id, content, authorName);
         quotations.add(quotation);
     }
-    void actionList(){
+
+    void actionList() {
         System.out.println("번호 / 작가 / 명언");
         System.out.println("--------------------");
 
@@ -62,9 +62,29 @@ class App {
             System.out.printf("%d / %s / %s\n", quotation.id, quotation.ahtorName, quotation.content);
         }
     }
-    void actionRemove(String cmd) { //매개변수 cmd에 삭제?id=1 문자열이 들어있다면
-        String idStr = cmd.replace("삭제?id=",""); // 삭제?id= 부분만 "" 빈문자열로 대체, 결국 "1" 만 남게 된다
-        int id = Integer.parseInt(idStr);// idStr변수에는 "1" 문자열 1이 저장 되있고, Integer.parseInt(idStr) 통해서 "1"이 숫자 1로 바뀌고 id 변수에 저장된다.
+
+    void actionRemove(String cmd) {
+        String[] cmdBits = cmd.split("\\?", 2);
+        String action = cmdBits[0];
+        String queryString = cmdBits[1];
+
+        String[] queryStringBits = queryString.split("&");
+        //queryStringBits[0] = id=1
+        //queryStringBits[1] = archive=true
+
+        int id = 0;
+        for (int i = 0; i < queryStringBits.length; i++) {
+            String queryParamStr = queryStringBits[i];
+
+            String[] queryParamStrBits = queryParamStr.split("=", 2);
+
+            String paramName = queryParamStrBits[0];
+            String paramValue = queryParamStrBits[1];
+
+            if (paramName.equals("id")) {
+                id = Integer.parseInt(paramValue);
+            }
+        }
         System.out.printf("%d번 명언을 삭제합니다.\n", id);
     }
 }
