@@ -27,10 +27,13 @@ class App {
                     return;
                 case "등록":
                     actionWrite();
+                    break;
                 case "목록":
                     actionList();
+                    break;
                 case "삭제":
                     actionRemove(rq);
+                    break;
             }
         }
     }
