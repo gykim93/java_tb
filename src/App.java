@@ -51,6 +51,8 @@ class App {
 
         Quotation quotation = new Quotation(id, content, authorName);
         quotations.add(quotation);
+
+        System.out.printf("%d번 명언이 등록 되었습니다.\n", lastQuotationId);
     }
 
     void actionList() {
@@ -72,7 +74,24 @@ class App {
             System.out.println("id를 정확히 입력해주세요.");
             return; // 함수를 끝낸다
         }
+
+        int index = getIndexOfQuotationById(id);
+        if (index == -1) {
+            System.out.printf("%d번 명언은 존재하지 않습니다.\n", id);
+            return;
+        }
+        quotations.remove(index);
+
         System.out.printf("%d번 명언을 삭제합니다.\n", id);
     }
+    int getIndexOfQuotationById(int id){
+        for (int i = 0; i < quotations.size(); i++) {
+            Quotation quotation = quotations.get(i);
 
+            if (quotation.id == id){
+                return i;
+            }
+        }
+        return -1;
+    }
 }
